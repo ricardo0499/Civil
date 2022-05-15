@@ -174,7 +174,7 @@ def e(tramo1,tramo2,tramo3):
         for x in tramo1["CargasPLuz1"]:
             q.append(CargaPuntual(x[1],x[0]))
         q.append(CargaDistribuida(tramo1["CargasDLuz1"][0],tramo1["CargasDLuz1"][1],tramo1["CargasDLuz1"][2]))
-    elif tramo1["#CargasPLuz1"] <2:
+    elif tramo1["#CargasPLuz1"] <2 and tramo1["#CargasPLuz1"]>0 :
         q.append(CargaPuntual(tramo1["CargasPLuz1"][1],tramo1["CargasPLuz1"][0]))
         q.append(CargaDistribuida(tramo1["CargasDLuz1"][0],tramo1["CargasDLuz1"][1],tramo1["CargasDLuz1"][2]))
     
@@ -183,7 +183,7 @@ def e(tramo1,tramo2,tramo3):
         for x in tramo1["CargasPLuz2"]:
             p.append(CargaPuntual(x[1],x[0]))
         p.append(CargaDistribuida(tramo1["CargasDLuz2"][0],tramo1["CargasDLuz2"][1],tramo1["CargasDLuz2"][2]))
-    elif tramo1["#CargasPLuz2"] <2:
+    elif tramo1["#CargasPLuz2"] <2 and tramo1["#CargasPLuz2"]>0 :
         p.append(CargaPuntual(tramo1["CargasPLuz2"][1],tramo1["CargasPLuz2"][0]))
         p.append(CargaDistribuida(tramo1["CargasDLuz2"][0],tramo1["CargasDLuz2"][1],tramo1["CargasDLuz2"][2]))
     #tramo3
@@ -191,17 +191,17 @@ def e(tramo1,tramo2,tramo3):
         for x in tramo2["CargasPLuz2"]:
             r.append(CargaPuntual(x[1],x[0]))
         r.append(CargaDistribuida(tramo2["CargasDLuz2"][0],tramo2["CargasDLuz2"][1],tramo2["CargasDLuz2"][2]))
-    elif tramo1["#CargasPLuz2"] <2:
-        p.append(CargaPuntual(tramo1["CargasPLuz2"][1],tramo1["CargasPLuz2"][0]))
-        p.append(CargaDistribuida(tramo1["CargasDLuz2"][0],tramo1["CargasDLuz2"][1],tramo1["CargasDLuz2"][2]))
+    elif tramo2["#CargasPLuz2"] <2 and tramo2["#CargasPLuz2"]>0 :
+        p.append(CargaPuntual(tramo2["CargasPLuz2"][1],tramo2["CargasPLuz2"][0]))
+        p.append(CargaDistribuida(tramo2["CargasDLuz2"][0],tramo2["CargasDLuz2"][1],tramo2["CargasDLuz2"][2]))
     #tramo4
     if tramo3["#CargasPLuz2"] > 1:
         for x in tramo3["CargasPLuz2"]:
             s.append(CargaPuntual(x[1],x[0]))
         s.append(CargaDistribuida(tramo3["CargasDLuz2"][0],tramo3["CargasDLuz2"][1],tramo3["CargasDLuz2"][2]))
-    elif tramo1["#CargasPLuz2"] <2:
-        p.append(CargaPuntual(tramo1["CargasPLuz2"][1],tramo1["CargasPLuz2"][0]))
-        p.append(CargaDistribuida(tramo1["CargasDLuz2"][0],tramo1["CargasDLuz2"][1],tramo1["CargasDLuz2"][2]))
+    elif tramo3["#CargasPLuz2"] <2 and tramo3["#CargasPLuz2"]>0 :
+        p.append(CargaPuntual(tramo3["CargasPLuz2"][1],tramo3["CargasPLuz2"][0]))
+        p.append(CargaDistribuida(tramo3["CargasDLuz2"][0],tramo3["CargasDLuz2"][1],tramo3["CargasDLuz2"][2]))
     
 
     cargas = [
@@ -210,7 +210,13 @@ def e(tramo1,tramo2,tramo3):
         r, #carga en tramo 3
         s, #carga en tramo 4
     ]
-
+    #Desplazamiento de apoyos (vector columna r x 1)
+    a = np.array([
+            [0],
+            [0],
+            [0],
+            [0]
+        ])
     #Tipo de apoyos izquierdo y derecho
     # apoyo = 0: Empotramiento
     # apoyo = 1: Permite desplazamiento vertical
@@ -218,6 +224,9 @@ def e(tramo1,tramo2,tramo3):
     # apoyo = 3: Voladizo
     apoyoIzq = 0
     apoyoDer = 0
+
+    #Número de nudos
+    nudos = b + 1
 
     #Longitud total de la viga
     Ltotal = 0
@@ -238,7 +247,6 @@ def e(tramo1,tramo2,tramo3):
     #En general
     for i in range(b):
         gdlRest.append(2*i)
-        
     #Extremo izquierdo
     if apoyoIzq == 0: #empotramiento
         gdlRest.insert(1, 1)
@@ -259,7 +267,10 @@ def e(tramo1,tramo2,tramo3):
         gdlRest.append(2*b)
     else: #voladizo
         pass
-
+    
+    
+    #Número de reacciones (grados de libertad restringidos)
+    r = len(gdlRest)
     #Ensamble de la matriz de rigidez S por el enfoque de penalización
     S = KG
     for i in gdlRest:
@@ -268,15 +279,19 @@ def e(tramo1,tramo2,tramo3):
     #Reacciones nodales equivalentes en cada tramo
     QF = [0]*b #para guardar los vectores de reacciones nodales equivalentes de cada tramo
     for i in range(b): #recorre todos los tramos
-        control=0
-        for j in cargas: #considera todas las cargas de cada tramo
-            for xls in j:
-                QF[i] += xls.Qf(Tramo[i].L)
+        for j in range(len(cargas[i])): #considera todas las cargas de cada tramo
+                QF[i] += cargas[i][j].Qf(Tramo[i].L)
 
     #Ensamble del vector Qf para todos los gdl, incluidos los restringidos
     Qf = np.zeros((2*(b+1),1))
     for i in range(b):
         Qf[2*i:2*i+4,:] += QF[i]
+
+    #Modificación del vector de cargas por el enfoque de penalización
+    #P = Qf
+    #print(P)
+    #for i in range(r):
+      #  P[gdlRest[i]] = Qf[gdlRest[i]] + C * a[i,0]
 
     #Desplazamientos nodales
     d = -np.linalg.inv(S) @ Qf
@@ -296,7 +311,7 @@ def e(tramo1,tramo2,tramo3):
     R = -C * r
 
     #Número de secciones a tomar para los gráficos en cada tramo
-    numS = 50
+    numS = 1000
     Xt = [] #para guardar las x de cada tramo
     for i in range(b):
         Xt.append(np.linspace(0, Tramo[i].L, numS)) #Ubicación de las secciones
