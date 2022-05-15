@@ -1,7 +1,7 @@
 from tkinter import E
 from numpy import append
 import numpy as np
-
+import method2 as m2
 print("Cálculo de Momentos y Reacciones\n")
 nombreV=input("Introduzca el nombre de la viga: ")
 ei=1.0#float(input("Introduzca el valor de EI: "))
@@ -360,4 +360,5 @@ momentos=['RA','RB','RC','RD','RE']
 for x in fC:
     print(f"{momentos[c]}={x}")
     c+=1
-    
+
+m2.e(datosTramo1,datosTramo2,datosTramo3)
