@@ -380,7 +380,7 @@ def e(tramo1,tramo2,tramo3):
     DFQ = []
     for i in range(b):
         #Valores para el DFQ tipo lista
-        Corta = (Cortantes[i]/1000).tolist() #Pasamos a kN y convertimos en lista
+        Corta = (Cortantes[i]).tolist() #Pasamos a kN y convertimos en lista
         DFQ += Corta
 
     #Graf. principal de fuerza cortante
@@ -388,7 +388,7 @@ def e(tramo1,tramo2,tramo3):
     plt.plot(X, DFQ)
     plt.title('Diagrama de Fuerza Cortante', fontsize = 16)
     plt.xlabel('x [m]')
-    plt.ylabel('Fuerza cortante [kN]')
+    plt.ylabel('Fuerza cortante')
     plt.axhline(linewidth = 3)
     plt.xlim(0, Ltotal)
     plt.grid()
@@ -405,12 +405,12 @@ def e(tramo1,tramo2,tramo3):
                 ubicMax = Ltotal - Tramo[i].L/2
             if ubicMin == Ltotal:
                 ubicMin = Ltotal - Tramo[i].L/2
-            plt.text(ubicMax, maxCortante[i]*0.00108, '$Q_{max} = $' + \
-                    str(round(maxCortante[i]/1000,2)) + '$kN, x= $' + str(round(XmaxQ[i],2)) \
-                    + '$m$')
-            plt.text(ubicMin, minCortante[i]*0.00108, '$Q_{min} = $' + \
-                    str(round(minCortante[i]/1000,2)) + '$kN, x= $' + str(round(XminQ[i],2)) \
-                    + '$m$')
+            plt.text(ubicMax, maxCortante[i], '$Q_{max} = $' + \
+                    str(round(maxCortante[i],2)))# + '$, x= $' + str(round(XmaxQ[i],2)) \
+                   # + '$m$')
+            plt.text(ubicMin, minCortante[i], '$Q_{min} = $' + \
+                    str(round(minCortante[i],2)))# + '$, x= $' + str(round(XminQ[i],2)) \
+                    #+ '$m$')
 
     colocarTextosQ()
             
@@ -435,7 +435,7 @@ def e(tramo1,tramo2,tramo3):
     DMF = []
     for i in range(b):
         #Valores para el DMF tipo lista
-        Flex = (Flectores[i]/1000).tolist() #Pasamos a kNm y convertimos en lista
+        Flex = (Flectores[i]).tolist() #Pasamos a kNm y convertimos en lista
         DMF += Flex
 
     #Graf. principal
@@ -443,7 +443,7 @@ def e(tramo1,tramo2,tramo3):
     plt.plot(X, DMF)
     plt.title('Diagrama de momento flector', fontsize = 16)
     plt.xlabel('x [m]')
-    plt.ylabel('Momento flector [kNm]')
+    plt.ylabel('Momento flector')
     plt.gca().invert_yaxis() #invierte el eje y
     plt.axhline(linewidth = 3)
     plt.xlim(0, Ltotal)
@@ -461,12 +461,12 @@ def e(tramo1,tramo2,tramo3):
                 ubicMax = Ltotal - Tramo[i].L/2
             if ubicMin == Ltotal:
                 ubicMin = Ltotal - Tramo[i].L/2
-            plt.text(ubicMax*0.7, maxFlector[i]*0.00115, '$M_{max} = $' + \
-                    str(round(maxFlector[i]/1000,2)) + '$kNm, x= $' + str(round(XmaxF[i],2)) \
-                    + '$m$')
-            plt.text(ubicMin, minFlector[i]*0.001, '$M_{min} = $' + \
-                    str(round(minFlector[i]/1000,2)) + '$kNm, x= $' + str(round(XminF[i],2)) \
-                    + '$m$')
+            plt.text(ubicMax*0.7, maxFlector[i], '$M_{max} = $' + \
+                    str(round(maxFlector[i],2)))# + '$, x= $' + str(round(XmaxF[i],2)) \
+                    #+ '$m$')
+            plt.text(ubicMin, minFlector[i], '$M_{min} = $' + \
+                    str(round(minFlector[i],2)))# + '$, x= $' + str(round(XminF[i],2)) \
+                   # + '$m$')
 
     colocarTextosF()
             
