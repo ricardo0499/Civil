@@ -250,108 +250,42 @@ for x in m:
     c+=1
 fC=[]
 #fuerzas cortantes
-def fCort(longLuz,m1,m2,cargaP,numCP,cargaD,luz):#función que calcula las fuerzas cortantes en una luz
+def fCort(longLuz,m1,m2,cargaP,numCP,cargaD,luz,l1,l2):#función que calcula las fuerzas cortantes en una luz
     print(f"Cortantes Luz {luz}")
     cortantes=[]
-    if m1<0 and m2<0:
-        if numCP<2:#una o cero cargas puntuales
-            v1=(-m1+m2+cargaP[1]*(longLuz-cargaP[0])+cargaD[0]*cargaD[2]*(cargaD[2]/2))/longLuz
-            v2=-v1+cargaP[1]+cargaD[0]*longLuz
-            cortantes.append(v1)
-            cortantes.append(v2)
-            print(f"VLR = {cortantes[0]}")
-            print(f"VRL = {cortantes[1]}")
-            return cortantes
-        else:#más de una carga puntual
-            sum=0
-            sum2=0
-            for x in cargaP:
-                sum+=(longLuz-x[0])*x[1]
-                sum2+=x[0]
-            v1=-(-m1+m2+sum+cargaD[0]*longLuz*(longLuz/2))/longLuz
-            v2=-v1+sum2+cargaD[0]*longLuz
-            cortantes.append(v1)
-            cortantes.append(v2)
-            print(f"VLR = {cortantes[0]}")
-            print(f"VRL = {cortantes[1]}")
-            return cortantes
-    elif m1>0 and m2<0:
-        if numCP<2:#una o cero cargas puntuales
-            v1=(-m1+m2+cargaP[1]*(longLuz-cargaP[0])+cargaD[0]*cargaD[2]*(cargaD[2]/2))/longLuz
-            v2=-v1+cargaP[1]+cargaD[0]*longLuz
-            cortantes.append(v1)
-            cortantes.append(v2)
-            print(f"VLR = {cortantes[0]}")
-            print(f"VRL = {cortantes[1]}")
-            return cortantes
-        else:#más de una carga puntual
-            sum=0
-            sum2=0
-            for x in cargaP:
-                sum+=(longLuz-x[0])*x[1]
-                sum2+=x[0]
-            v1=(-m1+m2+sum+cargaD[0]*longLuz*(longLuz/2))/longLuz
-            v2=-v1+sum2+cargaD[0]*longLuz
-            cortantes.append(v1)
-            cortantes.append(v2)
-            print(f"VLR = {cortantes[0]}")
-            print(f"VRL = {cortantes[1]}")
-            return cortantes
-    elif m1<0 and m2>0:
-        if numCP<2:#una o cero cargas puntuales
-            v1=(-m1+m2+cargaP[1]*(longLuz-cargaP[0])+cargaD[0]*cargaD[2]*(cargaD[2]/2))/longLuz
-            v2=-v1+cargaP[1]+cargaD[0]*longLuz
-            cortantes.append(v1)
-            cortantes.append(v2)
-            print(f"VLR = {cortantes[0]}")
-            print(f"VRL = {cortantes[1]}")
-            return cortantes
-        else:#más de una carga puntual
-            sum=0
-            sum2=0
-            for x in cargaP:
-                sum+=(longLuz-x[0])*x[1]
-                sum2+=x[0]
-            v1=(-m1+m2+sum+cargaD[0]*longLuz*(longLuz/2))/longLuz
-            v2=-v1+sum2+cargaD[0]*longLuz
-            cortantes.append(v1)
-            cortantes.append(v2)
-            print(f"VLR = {cortantes[0]}")
-            print(f"VRL = {cortantes[1]}")
-            return cortantes
-    else:
-        if numCP<2:#una o cero cargas puntuales
-            v1=(-m1+m2+cargaP[1]*(longLuz-cargaP[0])+cargaD[0]*cargaD[2]*(cargaD[2]/2))/longLuz
-            v2=-v1+cargaP[1]+cargaD[0]*longLuz
-            cortantes.append(v1)
-            cortantes.append(v2)
-            print(f"VLR = {cortantes[0]}")
-            print(f"VRL = {cortantes[1]}")
-            return cortantes
-        else:#más de una carga puntual
-            sum=0
-            sum2=0
-            for x in cargaP:
-                sum+=(longLuz-x[0])*x[1]
-                sum2+=x[0]
-            v1=(-m1+m2+sum+cargaD[0]*longLuz*(longLuz/2))/longLuz
-            v2=-v1+sum2+cargaD[0]*longLuz
-            cortantes.append(v1)
-            cortantes.append(v2)
-            print(f"VLR = {cortantes[0]}")
-            print(f"VRL = {cortantes[1]}")
-            return cortantes
+    if numCP<2:#una o cero cargas puntuales
+        v1=(-m1+m2+cargaP[1]*(longLuz-cargaP[0])+cargaD[0]*cargaD[2]*(cargaD[2]/2))/longLuz
+        v2=-v1+cargaP[1]+cargaD[0]*longLuz
+        cortantes.append(v1)
+        cortantes.append(v2)
+        print(f"V{l1} = {cortantes[0]}")
+        print(f"V{l2} = {cortantes[1]}")
+        return cortantes
+    elif numCP>=2:#más de una carga puntual
+        sum=0
+        sum2=0
+        for x in cargaP:
+            sum+=(longLuz-x[0])*x[1]
+            sum2+=x[1]
+        v1=(-m1+m2+sum+cargaD[0]*longLuz*(longLuz/2))/longLuz
+        v2=-v1+sum2+cargaD[0]*longLuz
+        cortantes.append(v1)
+        cortantes.append(v2)
+        print(f"V{l1} = {cortantes[0]}")
+        print(f"V{l2} = {cortantes[1]}")
+        return cortantes
+    
 print("Fuerzas Cortantes: ")
-fpC=fCort(datosTramo1["LongitudLuz1"],m[0],m[1],datosTramo1["CargasPLuz1"],datosTramo1["#CargasPLuz1"],datosTramo1["CargasDLuz1"],"AB")
+fpC=fCort(datosTramo1["LongitudLuz1"],m[0],m[1],datosTramo1["CargasPLuz1"],datosTramo1["#CargasPLuz1"],datosTramo1["CargasDLuz1"],"AB","AB","BA")
 fC.append(fpC[0])
 fC.append(fpC[1])
-fpC=fCort(datosTramo2["LongitudLuz1"],m[1],m[2],datosTramo2["CargasPLuz1"],datosTramo2["#CargasPLuz1"],datosTramo2["CargasDLuz1"],"BC")
+fpC=fCort(datosTramo2["LongitudLuz1"],m[1],m[2],datosTramo2["CargasPLuz1"],datosTramo2["#CargasPLuz1"],datosTramo2["CargasDLuz1"],"BC","BC","CB")
 fC.append(fpC[1])
 fC[1]+=fpC[0]
-fpC=fCort(datosTramo3["LongitudLuz1"],m[2],m[3],datosTramo3["CargasPLuz1"],datosTramo3["#CargasPLuz1"],datosTramo3["CargasDLuz1"],"CD")
+fpC=fCort(datosTramo3["LongitudLuz1"],m[2],m[3],datosTramo3["CargasPLuz1"],datosTramo3["#CargasPLuz1"],datosTramo3["CargasDLuz1"],"CD","CD","DC")
 fC.append(fpC[1])
 fC[2]+=fpC[0]
-fpC=fCort(datosTramo3["LongitudLuz2"],m[3],m[4],datosTramo3["CargasPLuz2"],datosTramo3["#CargasPLuz2"],datosTramo3["CargasDLuz2"],"DE")
+fpC=fCort(datosTramo3["LongitudLuz2"],m[3],m[4],datosTramo3["CargasPLuz2"],datosTramo3["#CargasPLuz2"],datosTramo3["CargasDLuz2"],"DE","DE","ED")
 fC.append(fpC[1])
 fC[3]+=fpC[0]
 c=0
