@@ -1,0 +1,68 @@
+Viga 2 (Prueba)
+Se asume que la Viga Viga 2 (Prueba) tiene 3 apoyos y está empotrada a ambos extremos
+Introduzca el coeficiente EI de luz AB: 2.0
+Introduzca el coeficiente EI de luz BC: 1.0
+Longitud de luz AB: 8.0
+Longitud de luz BC: 7.0
+número de cargas puntuales en luz AB: 1
+(Carga) Introduzca la distancia desde la izquierda: 2.0
+(Carga) Introduzca la magnitud de la carga: 3.0
+número de cargas distribuidas en luz AB: 1
+Introduzca la magnitud de la carga: 5.0
+Introduzca la distancia de la carga desde la izquierda: 0.0
+Introduzca la longitud de la distribución: 8.0
+número de cargas puntuales en luz BC: 0
+número de cargas distribuidas en luz BC: 1
+Introduzca la magnitud de la carga: 10.0
+Introduzca la distancia de la carga desde la izquierda: 0.0
+Introduzca la longitud de la distribución: 7.0
+Introduzca el coeficiente EI de luz CD: 3.0
+Longitud luz CD: 8.0
+número de cargas puntuales en luz CD: 2
+(Carga 1) Introduzca la distancia desde la izquierda: 2.0
+(Carga 1) Introduzca la magnitud de la carga: 4.0
+(Carga 2) Introduzca la distancia desde la izquierda: 5.0
+(Carga 2) Introduzca la magnitud de la carga: 7.0
+número de cargas distribuidas en luz CD: 1
+Introduzca la magnitud de la carga: 7.0
+Introduzca la distancia de la carga desde la izquierda: 0.0
+Introduzca la longitud de la distribución: 8.0
+Introduzca el coeficiente EI de luz DE: 2.0
+Longitud luz DE: 2.0
+número de cargas puntuales en luz DE: 1
+(Carga) Introduzca la distancia desde la izquierda: 1.0
+(Carga) Introduzca la magnitud de la carga: 2.0
+número de cargas distribuidas en luz DE: 1
+Introduzca la magnitud de la carga: 12.0
+Introduzca la distancia de la carga desde la izquierda: 0.0
+Introduzca la longitud de la distribución: 2.0
+Momentos
+[8. 4. 0. 0. 0.]=-351.5
+[ 4. 22.  7.  0.  0.]=-1200.0
+[ 0.          7.         19.33333333  2.66666667  0.        ]=-1232.2916666666667
+[0.         0.         2.66666667 7.33333333 1.        ]=-389.0416666666667
+[0. 0. 0. 1. 2.]=-13.5
+MA=-26.335450183460345
+MB=-35.20409963307931
+MC=-45.73828676263055
+MD=-38.0960344340954
+ME=12.2980172170477
+Fuerzas Cortantes: 
+Cortantes Luz AB
+VAB = 21.14141881879763
+VBA = 21.85858118120237
+Cortantes Luz BC
+VBC = 33.49511612434982
+VCB = 36.50488387565018
+Cortantes Luz CD
+VCD = 34.580281541066896
+VDC = 32.419718458933104
+Cortantes Luz DE
+VDE = 38.19702582557155
+VED = -12.19702582557155
+Reacciones: 
+RA=21.14141881879763
+RB=55.35369730555219
+RC=71.08516541671708
+RD=70.61674428450465
+RE=-12.19702582557155

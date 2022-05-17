@@ -2,23 +2,30 @@ from tkinter import E
 from numpy import append
 import numpy as np
 import method2 as m2
+
 print("Cálculo de Momentos y Reacciones\n")
 nombreV=input("Introduzca el nombre de la viga: ")
+f=open(f"{nombreV}.txt","x")
+f.write(f"{nombreV}\n")
 ei=1.0#float(input("Introduzca el valor de EI: "))
-
 print("Se asume que la Viga ",nombreV," tiene 3 apoyos y está empotrada a ambos extremos\n")
+f.write(f"Se asume que la Viga {nombreV} tiene 3 apoyos y está empotrada a ambos extremos\n")
 
 def datosCargaP(numCargasP): #función que recoge los datos de las cargas puntuales en una luz
     cargas=[] #matriz para almacenar los datos
     if numCargasP==1: #para una sola carga
         cargas.append(float(input(f"(Carga) Introduzca la distancia desde la izquierda: ")))
+        f.write(f"(Carga) Introduzca la distancia desde la izquierda: {cargas[0]}\n")
         cargas.append(float(input(f"(Carga) Introduzca la magnitud de la carga: ")))
+        f.write(f"(Carga) Introduzca la magnitud de la carga: {cargas[1]}\n")
         return cargas
     elif numCargasP>=2: #más de una carga
         for x in range(numCargasP):
             cargaslinea=[]
-            cargaslinea.append(float(input(f"(Carga {x}) Introduzca la distancia desde la izquierda: ")))
-            cargaslinea.append(float(input(f"(Carga {x}) Introduzca la magnitud de la carga: ")))
+            cargaslinea.append(float(input(f"(Carga {x+1}) Introduzca la distancia desde la izquierda: ")))
+            f.write(f"(Carga {x+1}) Introduzca la distancia desde la izquierda: {cargaslinea[0]}\n")
+            cargaslinea.append(float(input(f"(Carga {x+1}) Introduzca la magnitud de la carga: ")))
+            f.write(f"(Carga {x+1}) Introduzca la magnitud de la carga: {cargaslinea[1]}\n")
             cargas.append(cargaslinea)
         return cargas
     else:
@@ -28,9 +35,12 @@ def datosCargaP(numCargasP): #función que recoge los datos de las cargas puntua
 def datosCargaM(numCargasD): #recolección de datos para carga distribuida en una luz
     cargasD=[]
     if numCargasD==1:
-        magCD=float(input(f"Introduzca la magnitud de la carga: "))
+        magCD=float(input("Introduzca la magnitud de la carga: "))
+        f.write(f"Introduzca la magnitud de la carga: {magCD}\n")
         distanciaCd=float(input(f"Introduzca la distancia de la carga desde la izquierda: "))
+        f.write(f"Introduzca la distancia de la carga desde la izquierda: {distanciaCd}\n")
         longitudCd=float(input(f"Introduzca la longitud de la distribución: "))
+        f.write(f"Introduzca la longitud de la distribución: {longitudCd}\n")
         cargasD.append(magCD)
         cargasD.append(distanciaCd)
         cargasD.append(longitudCd)
@@ -43,16 +53,24 @@ def datosCargaM(numCargasD): #recolección de datos para carga distribuida en un
 def datos(luz1,luz2): #función que reúne los datos de cada tramo
     #print(f"Información del tramo {tramo}")
     ei1=float(input(f"Introduzca el coeficiente EI de luz {luz1}: "))
+    f.write(f"Introduzca el coeficiente EI de luz {luz1}: {ei1}\n")
     ei2=float(input(f"Introduzca el coeficiente EI de luz {luz2}: "))
+    f.write(f"Introduzca el coeficiente EI de luz {luz2}: {ei2}\n")
     longTramIzq=float(input(f"Longitud de luz {luz1}: "))
+    f.write(f"Longitud de luz {luz1}: {longTramIzq}\n")
     longTramDer=float(input(f"Longitud de luz {luz2}: "))
+    f.write(f"Longitud de luz {luz2}: {longTramDer}\n")
     numCargasP1=int(input(f"número de cargas puntuales en luz {luz1}: "))
+    f.write(f"número de cargas puntuales en luz {luz1}: {numCargasP1}\n")
     cargasPIzq=datosCargaP(numCargasP1)
     numCargasD1=int(input(f"número de cargas distribuidas en luz {luz1}: "))
+    f.write(f"número de cargas distribuidas en luz {luz1}: {numCargasD1}\n")
     cargasDIzq=datosCargaM(numCargasD1)
     numCargasP2=int(input(f"número de cargas puntuales en luz {luz2}: "))
+    f.write(f"número de cargas puntuales en luz {luz2}: {numCargasP2}\n")
     cargasPDer=datosCargaP(numCargasP2)
     numCargasD2=int(input(f"número de cargas distribuidas en luz {luz2}: "))
+    f.write(f"número de cargas distribuidas en luz {luz2}: {numCargasD2}\n")
     cargasDDer=datosCargaM(numCargasD2)
     
     diccionario={
@@ -74,15 +92,19 @@ def datos2(ei,longTI,ncp1,cpi,ncd1,cdi,luz): #función que reúne los datos de c
     #print(f"Información del tramo {tramo}")
     ei1=ei
     ei2=float(input(f"Introduzca el coeficiente EI de luz {luz}: "))
+    f.write(f"Introduzca el coeficiente EI de luz {luz}: {ei2}\n")
     longTramIzq=longTI
     longTramDer=float(input(f"Longitud luz {luz}: "))
+    f.write(f"Longitud luz {luz}: {longTramDer}\n")
     numCargasP1=ncp1
     cargasPIzq=cpi
     numCargasD1=ncd1
     cargasDIzq=cdi
     numCargasP2=int(input(f"número de cargas puntuales en luz {luz}: "))
+    f.write(f"número de cargas puntuales en luz {luz}: {numCargasP2}\n")
     cargasPDer=datosCargaP(numCargasP2)
     numCargasD2=int(input(f"número de cargas distribuidas en luz {luz}: "))
+    f.write(f"número de cargas distribuidas en luz {luz}: {numCargasD2}\n")
     cargasDDer=datosCargaM(numCargasD2)
     
     diccionario={
@@ -239,19 +261,24 @@ matriz3.append(matriz[5])
 a = np.array(matriz2)
 b = np.array(matriz3)
 c=0
+print("Momentos\n")
+f.write("Momentos\n")
 for x in a:
     print(f"{x}={b[c]}")
+    f.write(f"{x}={b[c]}\n")
     c+=1
 m = np.linalg.solve(a,b)
 c=0
 momentos=['A','B','C','D','E']
 for x in m:
     print(f"M{momentos[c]}={x}")
+    f.write(f"M{momentos[c]}={x}\n")
     c+=1
 fC=[]
 #fuerzas cortantes
 def fCort(longLuz,m1,m2,cargaP,numCP,cargaD,luz,l1,l2):#función que calcula las fuerzas cortantes en una luz
     print(f"Cortantes Luz {luz}")
+    f.write(f"Cortantes Luz {luz}\n")
     cortantes=[]
     if numCP<2:#una o cero cargas puntuales
         v1=(-m1+m2+cargaP[1]*(longLuz-cargaP[0])+cargaD[0]*cargaD[2]*(cargaD[2]/2))/longLuz
@@ -259,7 +286,9 @@ def fCort(longLuz,m1,m2,cargaP,numCP,cargaD,luz,l1,l2):#función que calcula las
         cortantes.append(v1)
         cortantes.append(v2)
         print(f"V{l1} = {cortantes[0]}")
+        f.write(f"V{l1} = {cortantes[0]}\n")
         print(f"V{l2} = {cortantes[1]}")
+        f.write(f"V{l2} = {cortantes[1]}\n")
         return cortantes
     elif numCP>=2:#más de una carga puntual
         sum=0
@@ -272,10 +301,13 @@ def fCort(longLuz,m1,m2,cargaP,numCP,cargaD,luz,l1,l2):#función que calcula las
         cortantes.append(v1)
         cortantes.append(v2)
         print(f"V{l1} = {cortantes[0]}")
+        f.write(f"V{l1} = {cortantes[0]}\n")
         print(f"V{l2} = {cortantes[1]}")
+        f.write(f"V{l2} = {cortantes[1]}\n")
         return cortantes
     
 print("Fuerzas Cortantes: ")
+f.write("Fuerzas Cortantes: \n")
 fpC=fCort(datosTramo1["LongitudLuz1"],m[0],m[1],datosTramo1["CargasPLuz1"],datosTramo1["#CargasPLuz1"],datosTramo1["CargasDLuz1"],"AB","AB","BA")
 fC.append(fpC[0])
 fC.append(fpC[1])
@@ -290,9 +322,11 @@ fC.append(fpC[1])
 fC[3]+=fpC[0]
 c=0
 print("Reacciones: ")
+f.write("Reacciones: \n")
 momentos=['RA','RB','RC','RD','RE']
 for x in fC:
     print(f"{momentos[c]}={x}")
+    f.write(f"{momentos[c]}={x}\n")
     c+=1
-
+f.close()
 m2.e(datosTramo1,datosTramo2,datosTramo3)
